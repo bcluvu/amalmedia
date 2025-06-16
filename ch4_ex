@@ -1,0 +1,195 @@
+//1
+ABS(-15) : 15
+CEIL(15.7) : 16
+COS(3.14159) : -0.9999999999964793
+FLOOR(15.7) : 15
+LOG(10,100) : 2
+MOD(11,4) : 3
+POWER(3,2) : 9
+ROUND(15.7) : 16
+SIGN(-15) : -1
+TRUNCATE(15.7,0) : 15
+CHAR(67 USING utf8) : 'C'
+CONCAT('HAPPY', 'Birthday') : 'HAPPYBirthday'
+LPAD('Page 1', 15, '*') : *********Page 1
+REPLACE('JACK','J','BL') : 'BLACK'
+RPAD('Page 1',15, '*') : Page 1********
+SUBSTR('ABCDEFG', 3, 4) : 'CDEF'
+TRIM(LEADING 0 FROM '00AA00') : 'AA00'
+UPPER('Birthday') : 'BIRTHDAY'
+ASCII('A') : 65
+LENGTH('Birthday') : 8
+ADDDATE('2024-02-14', INTERVAL 10 DAY) : '2024-02-24'
+LAST_DAY(SYSDATE()) : 월의 마지막 날짜
+NOW() : 현재 날짜와 시간
+DATE_FORMAT(SYSDATE(), '%Y') : '2025'
+CONCAT(123) : '123'
+STR_TO_DATE('12 05 2024','%D%M%Y') : '2024-05-12'
+CAST('12.3', AS DECIMAL(3,1)) : 12.3
+IF(1=1, 'aa', 'bb') : 'aa'
+IFNULL(123,345) : 123
+IFNULL(NULL, 123) : 123
+//2-1
+| bookid | price |
+| ------ | ----- |
+| 3      | NULL  |
+//2-2
+| bookid | price |
+| ------ | ----- |
+| 1      | 10000 |
+| 2      | 20000 |
+| 3      | NULL  |
+//2-3
+| bookid | price |
+| ------ | ----- |
+| 3      | NULL  |
+//2-4
+X
+//2-5
+| bookid | price + 100 |
+| ------ | ----------- |
+| 1      | 10100       |
+| 2      | 20100       |
+| 3      | NULL        |
+//2-6
+| SUM(price)  | AVG(price) | COUNT(*) |
+| ----------- | ---------- | --------- |
+| NULL (또는 0) | NULL       | 0         |
+//2-7
+| COUNT(\*) | COUNT(price) |
+| --------- | ------------ |
+| 3         | 2            |
+//2-8
+| SUM(price) | AVG(price) |
+| ---------- | ---------- |
+| 30000      | 15000      |
+//3-1
+-- 2
+//3-2
+| A  | B    |
+| -- | ---- |
+| 12 | NULL |
+| 10 | 12   |
+//3-3
+| A    | COUNT(*) |
+| ---- | --------- |
+| NULL | 2         |
+| 12   | 1         |
+| 10   | 1         |
+//4-1
+| bookid | bookname          | price |
+| ------ | ----------------- | ----- |
+| 1      | 축구의 역사            | 7000  |
+| 2      | 축구 아는 여자          | 13000 |
+| 3      | 축구의 이해            | 22000 |
+| 4      | 골프 바이블            | 35000 |
+| 5      | 피겨 교본             | 8000  |
+| 6      | 배구 단계별기술          | 6000  |
+| 7      | 야구의 추억            | 20000 |
+| 8      | 야구를 부탁해           | 13000 |
+| 9      | 올림픽 이야기           | 7500  |
+| 10     | Olympic Champions | 13000 |
+//4-2
+| bookid | bookname | price |
+| ------ | -------- | ----- |
+| 1      | 축구의 역사   | 7000  |
+| 2      | 축구 아는 여자 | 13000 |
+| 3      | 축구의 이해   | 22000 |
+| 4      | 골프 바이블   | 35000 |
+| 5      | 피겨 교본    | 8000  |
+//4-3
+| bookid | bookname | price |
+| ------ | -------- | ----- |
+| 6      | 배구 단계별기술 | 6000  |
+| 1      | 축구의 역사   | 7000  |
+| 9      | 올림픽 이야기  | 7500  |
+| 5      | 피겨 교본    | 8000  |
+| 2      | 축구 아는 여자 | 13000 |
+//4-4,5
+| bookid | bookname | price | ROWNUM |
+| ------ | -------- | ----- | ------ |
+| 1      | 축구의 역사   | 7000  | 1      |
+| 2      | 축구 아는 여자 | 13000 | 2      |
+| 3      | 축구의 이해   | 22000 | 3      |
+| 4      | 골프 바이블   | 35000 | 4      |
+| 5      | 피겨 교본    | 8000  | 5      |
+//4-6
+| bookid | bookname | price | ROWNUM |
+| ------ | -------- | ----- | ------ |
+| 6      | 배구 단계별기술 | 6000  | 1      |
+| 1      | 축구의 역사   | 7000  | 2      |
+| 9      | 올림픽 이야기  | 7500  | 3      |
+| 5      | 피겨 교본    | 8000  | 4      |
+| 2      | 축구 아는 여자 | 13000 | 5      |
+//4-7
+| bookid | bookname | price | ROWNUM |
+| ------ | -------- | ----- | ------ |
+| 6      | 배구 단계별기술 | 6000  | 1      |
+| 1      | 축구의 역사   | 7000  | 2      |
+| 9      | 올림픽 이야기  | 7500  | 3      |
+//5-1
+-- 총구매액을 계싼해서 해당 고객의 주소를 출력
+//5-2
+-- 각 고객의 일므과 평균 구매액을 출력
+//5-3
+-- 고객번호 1~3번까지의 고객들의 총 구매액을 계산
+//6-1
+-- 4번
+//7-1
+SELECT name
+FROM Customer
+WHERE address LIKE '대한민국%'
+  AND name NOT IN (
+      SELECT name
+      FROM Customer
+      WHERE custid IN (SELECT custid FROM Orders)
+  );
+//7-2
+SELECT name
+FROM Customer c1
+WHERE address LIKE '대한민국%'
+  AND NOT EXISTS (
+      SELECT name
+      FROM Customer
+      WHERE custid IN (SELECT custid FROM Orders)
+        AND c1.name LIKE name
+  );
+//7-3
+SELECT c1.name
+FROM Customer c1, Customer c2
+WHERE c1.name = c2.name
+  AND c1.address LIKE '대한민국%'
+  AND c2.custid NOT IN (SELECT custid FROM Orders);
+  //8
+  | 회원번호 | 등급 |
+  | ---- | -- |
+  | 1    | 1  |
+  | 2    | 2  |
+  //9
+  -- 2>3>4>5>1>6
+  //10
+  -- 편리성 및 재사용성
+  -- 보안성
+  -- 독립성
+  //11
+  -- 5000
+  //12-1
+CREATE VIEW highorders AS
+SELECT B.bookid, B.bookname, C.name AS customername, B.publisher, O.saleprice
+FROM Book B
+JOIN Orders O ON B.bookid = O.bookid
+JOIN Customer C ON O.custid = C.custid
+WHERE O.saleprice >= 20000;
+//12-2
+SELECT bookname, customername
+FROM highorders;
+//12-3
+DROP VIEW highorders;
+CREATE VIEW highorders AS
+SELECT B.bookid, B.bookname, C.name AS customername, B.publisher
+FROM Book B
+JOIN Orders O ON B.bookid = O.bookid
+JOIN Customer C ON O.custid = C.custid
+WHERE O.saleprice >= 20000;
+SELECT bookname, customername
+FROM highorders;
