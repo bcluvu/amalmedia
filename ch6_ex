@@ -1,0 +1,290 @@
+//1
+-- 3
+//2
+-- 3
+//3
+-- 4
+//4
+-- 3
+//5
+-- 1
+//6
+-- 1
+//7-1
+Dept (부서번호 PK, 부서이름)
+Employee (직원번호 PK, 이름, 나이)
+
+Works (부서번호 FK, 직원번호 FK, 근무기간, 직책)
+//7-2
+| 컬럼명        | 자료형         | 제약조건        |
+| ---------- | ----------- | ----------- |
+| dept_no   | INT         | PRIMARY KEY |
+| dept_name | VARCHAR(50) |             |
+
+| 컬럼명     | 자료형         | 제약조건        |
+| ------- | ----------- | ----------- |
+| emp_no  | INT         | PRIMARY KEY |
+| name    | VARCHAR(50) |             |
+| age     | INT         |             |
+
+| 컬럼명         | 자료형                             | 제약조건        |
+| ------------ | --------------------------------- | ------------ |
+| emp_no       | INT                               | FK(Employee) |
+| dept_no      | INT                               | FK(Dept)     |
+| work_period  | VARCHAR(20)                       |              |
+| position     | VARCHAR(50)                       |              |
+| PK           | (emp_no, dept_no, work_period)    |              |
+
+
+//7-3
+CREATE TABLE Dept (
+    dept_no INT PRIMARY KEY,
+    dept_name VARCHAR(50)
+);
+
+CREATE TABLE Employee (
+    emp_no INT PRIMARY KEY,
+    emp_name VARCHAR(50),
+    age INT
+);
+
+CREATE TABLE Works (
+    emp_no INT,
+    dept_no INT,
+    work_period VARCHAR(20),
+    position VARCHAR(50),
+    PRIMARY KEY (emp_no, dept_no, work_period),
+    FOREIGN KEY (emp_no) REFERENCES Employee(emp_no),
+    FOREIGN KEY (dept_no) REFERENCES Dept(dept_no)
+);
+//8-1
+--개체:
+--주차장(Parking): 주차장번호(PK), 위치, 층수, 공간수
+--차량(Car): 차량번호(PK), 차종
+--관계:
+--배정(Assign): 차량번호(FK), 주차장번호(FK)
+//8-2
+| 컬럼명        | 자료형       | 제약조건       |
+| ----------- | ----------- | ----------- |
+| parking_no | INT         | PRIMARY KEY |
+| location    | VARCHAR(50) |             |
+| floor       | INT         |             |
+| capacity    | INT         |             |
+
+| 컬럼명     | 자료형         | 제약조건        |
+| ------- | ----------- | ----------- |
+| car_no | INT         | PRIMARY KEY |
+| type    | VARCHAR(50) |             |
+
+| 컬럼명         | 자료형       | 제약조건    |
+| ----------- | --------- | ----------- |
+| car_no     | INT       | FK(Car)     |
+| parking_no | INT       | FK(Parking) |
+| PK          | (car_no) |             |
+
+
+//8-3
+CREATE TABLE Parking (
+    parking_no INT PRIMARY KEY,
+    location VARCHAR(50) NOT NULL,
+    floor INT,
+    capacity INT
+);
+
+CREATE TABLE Car (
+    car_no INT PRIMARY KEY,
+    car_type VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE Assign (
+    car_no INT PRIMARY KEY,
+    parking_no INT,
+    FOREIGN KEY (car_no) REFERENCES Car(car_no)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    FOREIGN KEY (parking_no) REFERENCES Parking(parking_no)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE
+);
+
+//9
+CREATE TABLE Student (
+    sID INT PRIMARY KEY,
+    eName VARCHAR(50) NOT NULL,
+    dept VARCHAR(50)
+);
+
+CREATE TABLE Course (
+    cID INT PRIMARY KEY,
+    title VARCHAR(50) NOT NULL,
+    year INT
+);
+
+CREATE TABLE Enrolled (
+    sID INT,
+    cID INT,
+    grade VARCHAR(5),
+    PRIMARY KEY (sID, cID),
+    FOREIGN KEY (sID) REFERENCES Student(sID)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    FOREIGN KEY (cID) REFERENCES Course(cID)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+//10
+
+CREATE TABLE Customer (
+    custID INT PRIMARY KEY,
+    cname VARCHAR(50),
+    street VARCHAR(50),
+    city VARCHAR(50),
+    state VARCHAR(20),
+    zip VARCHAR(10),
+    phone VARCHAR(20)
+);
+
+CREATE TABLE Product (
+    prodID INT PRIMARY KEY,
+    description VARCHAR(100),
+    standardPrice DECIMAL(10,2)
+);
+
+CREATE TABLE Invoice (
+    invoiceID INT PRIMARY KEY,
+    custID INT,
+    orderDate DATE,
+    terms VARCHAR(50),
+    shipVia VARCHAR(50),
+    totalOrderAmt DECIMAL(12,2),
+    FOREIGN KEY (custID) REFERENCES Customer(custID)
+);
+
+CREATE TABLE LineItem (
+    invoiceID INT,
+    prodID INT,
+    quantity INT,
+    sellPrice DECIMAL(10,2),
+    PRIMARY KEY (invoiceID, prodID),
+    FOREIGN KEY (invoiceID) REFERENCES Invoice(invoiceID),
+    FOREIGN KEY (prodID) REFERENCES Product(prodID)
+);
+
+//11
+
+CREATE TABLE Person (
+    pID INT PRIMARY KEY,
+    name VARCHAR(50),
+    nation VARCHAR(50)
+);
+
+CREATE TABLE Disk (
+    dID INT PRIMARY KEY,
+    title VARCHAR(100),
+    year INT
+);
+
+CREATE TABLE Song (
+    trackNo INT PRIMARY KEY,
+    title VARCHAR(100),
+    dID INT,
+    FOREIGN KEY (dID) REFERENCES Disk(dID)
+);
+
+CREATE TABLE Authors (
+    trackNo INT,
+    pID INT,
+    PRIMARY KEY (trackNo, pID),
+    FOREIGN KEY (trackNo) REFERENCES Song(trackNo),
+    FOREIGN KEY (pID) REFERENCES Person(pID)
+);
+
+CREATE TABLE Performs (
+    trackNo INT,
+    pID INT,
+    instrument VARCHAR(50),
+    PRIMARY KEY (trackNo, pID),
+    FOREIGN KEY (trackNo) REFERENCES Song(trackNo),
+    FOREIGN KEY (pID) REFERENCES Person(pID)
+);
+
+//12
+
+CREATE TABLE Manufacturer (
+    mID INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(50),
+    address VARCHAR(100),
+    city VARCHAR(50),
+    street VARCHAR(50)
+);
+
+
+CREATE TABLE Part (
+    partnum INT PRIMARY KEY,
+    description VARCHAR(100),
+    mID INT,
+    FOREIGN KEY (mID) REFERENCES Manufacturer(mID)
+);
+
+
+CREATE TABLE Customer (
+    id INT PRIMARY KEY,
+    name VARCHAR(50)
+);
+
+
+CREATE TABLE Orders (
+    ordernum INT PRIMARY KEY,
+    id INT,
+    FOREIGN KEY (id) REFERENCES Customer(id)
+);
+
+
+CREATE TABLE OrderPart (
+    ordernum INT,
+    partnum INT,
+    quantity INT,
+    PRIMARY KEY (ordernum, partnum),
+    FOREIGN KEY (ordernum) REFERENCES Orders(ordernum),
+    FOREIGN KEY (partnum) REFERENCES Part(partnum)
+);
+
+//13
+
+CREATE TABLE Teams (
+    tid INT PRIMARY KEY,
+    name VARCHAR(50),
+    ranking INT
+);
+
+CREATE TABLE Students (
+    sid INT PRIMARY KEY,
+    name VARCHAR(50),
+    address VARCHAR(100)
+);
+
+CREATE TABLE Games (
+    gid INT PRIMARY KEY,
+    date DATE,
+    score INT,
+    host_tid INT,
+    FOREIGN KEY (host_tid) REFERENCES Teams(tid)
+);
+
+CREATE TABLE GameGuests (
+    gid INT,
+    tid INT,
+    PRIMARY KEY (gid, tid),
+    FOREIGN KEY (gid) REFERENCES Games(gid),
+    FOREIGN KEY (tid) REFERENCES Teams(tid)
+);
+
+CREATE TABLE Membership (
+    tid INT,
+    sid INT,
+    isCaptain BOOLEAN,
+    PRIMARY KEY (tid, sid),
+    FOREIGN KEY (tid) REFERENCES Teams(tid),
+    FOREIGN KEY (sid) REFERENCES Students(sid)
+);
